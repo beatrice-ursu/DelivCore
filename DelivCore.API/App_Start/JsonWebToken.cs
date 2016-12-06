@@ -1,7 +1,6 @@
 namespace DelivCore.API.App_Start
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -17,18 +16,14 @@ namespace DelivCore.API.App_Start
         private const string StringClaimValueType = "http://www.w3.org/2001/XMLSchema#string";
 
         // sort claim types by relevance
-        private static IEnumerable<string> claimTypesForUserName = new[] { "name", "email", "user_id", "sub" };
-        private static ISet<string> claimsToExclude = new HashSet<string>(new[] { "iss", "sub", "aud", "exp", "iat", "identities" });
+        private static readonly IEnumerable<string> ClaimTypesForUserName = new[] { "name", "email", "user_id", "sub" };
+        private static readonly ISet<string> ClaimsToExclude = new HashSet<string>(new[] { "iss", "sub", "aud", "exp", "iat", "identities" });
 
-        private static DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static ClaimsPrincipal ValidateToken(string token, string secretKey, string audience = null, bool checkExpiration = false, string issuer = null, bool isSecretBase64Encoded = true)
         {
-            byte[] secret;
-            if (isSecretBase64Encoded)
-                secret = Convert.FromBase64String(secretKey);
-            else
-                secret = Encoding.UTF8.GetBytes(secretKey);
+            var secret = isSecretBase64Encoded ? Convert.FromBase64String(secretKey) : Encoding.UTF8.GetBytes(secretKey);
 
             var payloadJson = JWT.JsonWebToken.Decode(token, secret, verify: true);
             var payloadData = JObject.Parse(payloadJson).ToObject<Dictionary<string, object>>();
@@ -39,7 +34,7 @@ namespace DelivCore.API.App_Start
             {
                 if (!aud.ToString().Equals(audience, StringComparison.Ordinal))
                 {
-                    throw new TokenValidationException(string.Format("Audience mismatch. Expected: '{0}' and got: '{1}'", audience, aud));
+                    throw new TokenValidationException($"Audience mismatch. Expected: '{audience}' and got: '{aud}'");
                 }
             }
 
@@ -50,8 +45,7 @@ namespace DelivCore.API.App_Start
                 DateTime validTo = FromUnixTime(long.Parse(exp.ToString()));
                 if (DateTime.Compare(validTo, DateTime.UtcNow) <= 0)
                 {
-                    throw new TokenValidationException(
-                        string.Format("Token is expired. Expiration: '{0}'. Current: '{1}'", validTo, DateTime.UtcNow));
+                    throw new TokenValidationException($"Token is expired. Expiration: '{validTo}'. Current: '{DateTime.UtcNow}'");
                 }
             }
 
@@ -63,7 +57,7 @@ namespace DelivCore.API.App_Start
                 {
                     if (!iss.ToString().Equals(issuer, StringComparison.Ordinal))
                     {
-                        throw new TokenValidationException(string.Format("Token issuer mismatch. Expected: '{0}' and got: '{1}'", issuer, iss));
+                        throw new TokenValidationException($"Token issuer mismatch. Expected: '{issuer}' and got: '{iss}'");
                     }
                 }
                 else
@@ -80,7 +74,7 @@ namespace DelivCore.API.App_Start
         {
             issuer = issuer ?? DefaultIssuer;
 
-            var list = jwtData.Where(p => !claimsToExclude.Contains(p.Key)) // don't include specific claims
+            var list = jwtData.Where(p => !ClaimsToExclude.Contains(p.Key)) // don't include specific claims
                               .Select(p => new { Key = p.Key, Values = p.Value as JArray ?? new JArray { p.Value } }) // p.Value is either claim value of ArrayList of values
                               .SelectMany(p => p.Values.Cast<object>()
                                                 .Select(v => new Claim(p.Key, v.ToString(), StringClaimValueType, issuer, issuer)))
@@ -88,7 +82,7 @@ namespace DelivCore.API.App_Start
 
             // set claim for user name
             // use original jwtData because claimsToExclude filter has sub and otherwise it wouldn't be used
-            var userNameClaimType = claimTypesForUserName.FirstOrDefault(ct => jwtData.ContainsKey(ct));
+            var userNameClaimType = ClaimTypesForUserName.FirstOrDefault(ct => jwtData.ContainsKey(ct));
             if (userNameClaimType != null)
             {
                 list.Add(new Claim(NameClaimType, jwtData[userNameClaimType].ToString(), StringClaimValueType, issuer, issuer));
@@ -134,7 +128,7 @@ namespace DelivCore.API.App_Start
 
         private static DateTime FromUnixTime(long unixTime)
         {
-            return unixEpoch.AddSeconds(unixTime);
+            return _unixEpoch.AddSeconds(unixTime);
         }
 
         public class TokenValidationException : Exception

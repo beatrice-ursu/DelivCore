@@ -23,7 +23,7 @@ namespace DelivCore.API.Controllers
         public IHttpActionResult NotSecured()
         {
             var test = _personService.GetFakePersons();
-            return this.Ok("All good. You don't need to be authenticated to call this.");
+            return Ok(test);
         }
 
         [Authorize]

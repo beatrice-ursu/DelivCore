@@ -1,4 +1,5 @@
-﻿using System.Web.Configuration;
+﻿using System.Net.Http.Headers;
+using System.Web.Configuration;
 using System.Web.Http;
 using DelivCore.API.App_Start;
 
@@ -28,6 +29,8 @@ namespace DelivCore.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
     }
 }
