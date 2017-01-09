@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Http;
+﻿using System.Linq;
 using System.Web.Mvc;
 using DelivCore.BusinessLayer.DeliveryOfferService;
 using DelivCore.BusinessLayer.DeliveryService;
 using DelivCore.BusinessLayer.OrderOfferService;
 using DelivCore.BusinessLayer.OrderService;
-using DelivCore.Models.Orders;
 
 namespace DelivCore.Web.Controllers
 {
@@ -30,14 +23,17 @@ namespace DelivCore.Web.Controllers
         }
 
         #region Methods
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(string status = null)
         {
+            ViewBag.Status = status;
             return View();
         }
 
-        public ActionResult GetOrders(IList<OrderModel> filteredList = null)
+        [Authorize]
+        public ActionResult GetOrders(string filter)
         {
-            var orders = filteredList?.ToList() ?? _orderService.GetAll().ToList();
+            var orders = filter != null ? _orderService.GetAll().Where(x => x.Status == filter).ToList(): _orderService.GetAll().ToList();
 
             return new JsonResult
             {
@@ -47,6 +43,7 @@ namespace DelivCore.Web.Controllers
             };
         }
 
+        [Authorize]
         public ActionResult GetDetails(int id)
         {
             var ordersDetails = _orderService.GetById(id);
@@ -54,32 +51,21 @@ namespace DelivCore.Web.Controllers
             return View("Details", ordersDetails);
         }
 
+        [Authorize]
         public ActionResult GetDeliveryOffers(int Id)
         {
-            //var results = new List<DeliveryOfferModel>
-            //{
-            //    new DeliveryOfferModel
-            //    {
-            //        Id = 1,
-            //        CourierId = 1,
-            //        Time = DateTime.Now.TimeOfDay,
-            //    },
-            //    new DeliveryOfferModel
-            //    {
-            //        CourierId = 2,
-            //        Time = DateTime.Now.TimeOfDay,
-            //    }
-            //};
             var results = _deliveryOfferService.GetAllById(Id);
             return Json(new {data = results}, JsonRequestBehavior.AllowGet);
         }
-
+        
+        [Authorize]
         [System.Web.Mvc.HttpPost]
         public void AddOrderOffer(int orderId,string description)
         {
             _orderOfferService.CreateOrderOffer(orderId,description);
         }
 
+        [Authorize]
         public void AcceptOffer(int id)
         {
             _deliveryService.AcceptOffer(id);

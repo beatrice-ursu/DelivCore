@@ -18,7 +18,7 @@ namespace DelivCore.Web.Controllers
         {
             HttpContext.GetOwinContext().Authentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [Authorize]

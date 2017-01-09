@@ -1,15 +1,15 @@
-﻿using System.Web.Mvc;
-using DelivCore.BusinessLayer.ClientService;
+﻿using DelivCore.BusinessLayer.PersonService;
+using System.Web.Mvc;
 
 namespace DelivCore.Web.Controllers
 {
-    public class ClientController : Controller
+    public class CourierController : Controller
     {
-        private readonly IClientService _clientService;
-        
-        public ClientController(IClientService clientService)
+        private readonly IPersonService _personService;
+
+        public CourierController(IPersonService personService)
         {
-            _clientService = clientService;
+            _personService = personService;
         }
 
         #region Methods
@@ -21,13 +21,13 @@ namespace DelivCore.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult GetClients()
+        public ActionResult GetCouriers()
         {
-            var clients = _clientService.GetAll();
+            var couriers = _personService.GetCouriers();
 
             return new JsonResult
             {
-                Data = new { data = clients },
+                Data = new { data = couriers },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet,
                 ContentType = "application/json"
             };

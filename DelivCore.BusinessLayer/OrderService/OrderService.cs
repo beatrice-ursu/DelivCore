@@ -8,6 +8,7 @@ using DelivCore.DataLayer.Constants;
 using DelivCore.DataLayer.Entities;
 using DelivCore.DataLayer.Repositories.OrderRepository;
 using DelivCore.Models.Orders;
+using DelivCore.Models.Layout;
 
 namespace DelivCore.BusinessLayer.OrderService
 {
@@ -44,6 +45,7 @@ namespace DelivCore.BusinessLayer.OrderService
             _orderRepository.Update(order);
             _orderRepository.SaveChanges();
         }
+
         public DashboardModel GroupOrders()
         {
             var allOrders = _orderRepository.GetAll().ToList();
@@ -65,6 +67,28 @@ namespace DelivCore.BusinessLayer.OrderService
             }
             dashboardModel.AllOrders = allOrders.Count();
             return dashboardModel;
+        }
+
+        public NavbarModel GroupOrdersByUser(string user)
+        {
+            var allOrders = _orderRepository.GetAll().Where(x => x.CreatedBy == user).ToList();
+
+            var navbarModel = new NavbarModel();
+
+            foreach (var item in allOrders)
+            {
+                switch (item.Status)
+                {
+                    case StatusConstants.Processed:
+                        navbarModel.ProcessedToday++;
+                        break;
+                    case StatusConstants.Accepted:
+                        if(item.CreatedOn.Date == DateTime.Now.Date)
+                            navbarModel.AcceptedToday++;
+                        break;
+                }
+            }
+            return navbarModel;
         }
     }
 }

@@ -34,7 +34,7 @@
     <script type="text/javascript">
         $('#orders-grid')
             .DataTable({
-                ajax: '@Url.Action("GetOrders", "Order")',
+                ajax: '@Url.Action("GetOrders", "Order", new { filter = ViewBag.Status })',
                 columns: [
                     { data: 'Id' },
                     { data: 'Client.LastName' },

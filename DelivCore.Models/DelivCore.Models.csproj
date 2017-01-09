@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Core\Model.cs" />
     <Compile Include="Core\PersonModel.cs" />
+    <Compile Include="Layout\NavbarModel.cs" />
     <Compile Include="Orders\DashboardModel.cs" />
     <Compile Include="Orders\DeliveryModel.cs" />
     <Compile Include="Orders\OrderDetailsModel.cs" />

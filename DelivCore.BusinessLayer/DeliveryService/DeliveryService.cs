@@ -39,12 +39,10 @@ namespace DelivCore.BusinessLayer.DeliveryService
                 Courier = deliveryOffer.Courier,
                 Active = true,
                 CreatedOn = DateTime.Now,
-                //todo change this
-                CreatedBy = "system"
             };
 
             _deliveryRepository.Insert(deliveryAccepted);
-            //_deliveryRepository.SaveChanges();
+            _deliveryRepository.SaveChanges();
 
             var order = _orderRepository.GetById(deliveryOffer.Order.Id);
 

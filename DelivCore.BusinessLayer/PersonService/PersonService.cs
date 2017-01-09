@@ -5,6 +5,7 @@ using DelivCore.DataLayer.Entities;
 using DelivCore.DataLayer.Repositories.PersonRepository;
 using DelivCore.Models.Person;
 using DelivCore.Models.Persons;
+using DelivCore.DataLayer.Repositories.DeliveryRepository;
 
 namespace DelivCore.BusinessLayer.PersonService
 {
@@ -19,10 +20,12 @@ namespace DelivCore.BusinessLayer.PersonService
 
         private readonly IMapper _mapper;
         private readonly IPersonRepository _personRepository;
-        public PersonService(IMapper mapper, IPersonRepository personRepository)
+        private readonly IDeliveryRepository _deliveryRepository;
+        public PersonService(IMapper mapper, IPersonRepository personRepository, IDeliveryRepository deliveryRepository)
         {
             _mapper = mapper;
             _personRepository = personRepository;
+            _deliveryRepository = deliveryRepository;
         }
 
         public IList<FakePerson> GetFakePersons()
@@ -45,6 +48,17 @@ namespace DelivCore.BusinessLayer.PersonService
             var entities = _personRepository.GetAll();
             var models = entities.Select(x => _mapper.Map<FakerPerson>(x)).ToList();
             return models;
+        }
+
+        public IList<CourierModel> GetCouriers()
+        {
+            var couriersEntities = _personRepository.GetAll();
+            var couriers = couriersEntities.Select(x => _mapper.Map<CourierModel>(x)).ToList();
+            foreach(var item in couriers)
+            {
+                item.NoOfOrders = _deliveryRepository.GetAll().Where(x => x.Courier.Id == item.Id).ToList().Count;
+            }
+            return couriers;
         }
     }
 }

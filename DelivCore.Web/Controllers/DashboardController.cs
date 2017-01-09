@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using DelivCore.BusinessLayer.OrderService;
 
 namespace DelivCore.Web.Controllers
@@ -16,16 +11,24 @@ namespace DelivCore.Web.Controllers
         {
             _orderService = orderService;
         }
+
+        #region Methods
+        //[Authorize]
         public ActionResult Index()
         {
             var groupOrders = _orderService.GroupOrders();
             return View("Index", groupOrders);
         }
 
-        public ActionResult FilterList([FromBody]string status)
+        //[Authorize]
+        public PartialViewResult NavbarPartial()
         {
-            var list = _orderService.GetAll().Where(x => x.Status == status).ToList();
-             return RedirectToAction("GetOrders", "Order", list);
+            var userLoggedIn = User.Identity.Name;
+            var model = _orderService.GroupOrdersByUser(userLoggedIn);
+
+            return PartialView("_NavbarPartial", model);
         }
+        #endregion
+
     }
 }
