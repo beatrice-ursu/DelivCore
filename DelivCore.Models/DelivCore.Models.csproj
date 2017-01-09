@@ -41,8 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Model.cs" />
-    <Compile Include="Person\FakePerson.cs" />
-    <Compile Include="Person\FakerPerson.cs" />
+    <Compile Include="Core\PersonModel.cs" />
+    <Compile Include="Orders\DashboardModel.cs" />
+    <Compile Include="Orders\DeliveryModel.cs" />
+    <Compile Include="Orders\OrderDetailsModel.cs" />
+    <Compile Include="Orders\PackageModel.cs" />
+    <Compile Include="Persons\ClientModel.cs" />
+    <Compile Include="Orders\DeliveryOfferModel.cs" />
+    <Compile Include="Orders\OrderModel.cs" />
+    <Compile Include="Orders\OrderOfferModel.cs" />
+    <Compile Include="Persons\CourierModel.cs" />
+    <Compile Include="Persons\FakePerson.cs" />
+    <Compile Include="Persons\FakerPerson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileModel.cs" />
   </ItemGroup>

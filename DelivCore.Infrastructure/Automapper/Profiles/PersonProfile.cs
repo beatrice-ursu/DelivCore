@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DelivCore.DataLayer.Entities;
-using DelivCore.Models.Person;
+using DelivCore.Models.Persons;
 
 namespace DelivCore.Infrastructure.Automapper.Profiles
 {
@@ -8,12 +8,9 @@ namespace DelivCore.Infrastructure.Automapper.Profiles
     {
         public PersonProfile()
         {
-            CreateMap<Person, FakePerson>()
-                .ForMember(dest => dest.FullName, a => a.MapFrom(src => src.LastName + " " + src.FirstName));
-            CreateMap<Person, FakerPerson>();
-
-            CreateMap<FakerPerson, Person>();
-            CreateMap<FakePerson, Person>();
+            CreateMap<Person, CourierModel>()
+                .ForMember(dest => dest.Deliveries, a => a.Ignore()); ;
+            CreateMap<CourierModel, Person>();
         }
     }
 }

@@ -1,4 +1,9 @@
 ﻿using Autofac;
+using DelivCore.DataLayer.Repositories.ClientRepository;
+using DelivCore.DataLayer.Repositories.DeliveryOfferRepository;
+using DelivCore.DataLayer.Repositories.DeliveryRepository;
+using DelivCore.DataLayer.Repositories.OrderOfferRepository;
+using DelivCore.DataLayer.Repositories.OrderRepository;
 using DelivCore.DataLayer.Repositories.PersonRepository;
 
 namespace DelivCore.Infrastructure.Autofac
@@ -9,6 +14,12 @@ namespace DelivCore.Infrastructure.Autofac
         {
             //register repositories
             builder.RegisterType<PersonRepository>().As<IPersonRepository>();
+            builder.RegisterType<OrderRepository>().As<IOrderRepository>();
+            builder.RegisterType<ClientRepository>().As<IClientRepository>();
+            builder.RegisterType<OrderOfferRepository>().As<IOrderOfferRepository>();
+            builder.RegisterType<DeliveryOfferRepository>().As<IDeliveryOfferRepository>();
+            builder.RegisterType<DeliveryRepository>().As<IDeliveryRepository>();
+
         }
     }
 }

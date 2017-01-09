@@ -20,11 +20,28 @@ namespace DelivCore.Web
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/globals.js",
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/metisMenu/metisMenu.js",
+                      "~/Scripts/raphael/raphael.js",
+                      "~/Scripts/morrisjs/morris.js",
+                      "~/Scripts/sb-admin-2.js",
+                      "~/Scripts/datatables/jQuery.dataTables.js",
+                      "~/Scripts/datatables/dataTables.bootstrap.js",
+                      "~/Scripts/datatables-plugins/dataTables.boostrap.js",
+                      "~/Scripts/datatables-responsive/dataTables.responsive.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/metisMenu/metisMenu.css",
+                      "~/Content/sb-admin-2.css",
+                      "~/Content/datatables/dataTables.bootstrap.css",
+                      "~/Content/datatables-plugins/dataTables.bootstrap.css",
+                      "~/Content/datatables-responsive/dataTables.responsive.css",
+                      "~/Content/morrisjs/morris.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/site.css"));
         }
     }

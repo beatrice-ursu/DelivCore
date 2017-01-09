@@ -10,11 +10,12 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
 {
     public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
+
         #region ctor
 
-        protected GenericRepository()
+        protected GenericRepository(DelivCoreDbContext context)
         {
-            _context = new DelivCoreDbContext();
+            _context = context;
             _dbSet = _context.Set<TEntity>();
         }
 

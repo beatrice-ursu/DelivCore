@@ -7,13 +7,13 @@ namespace DelivCore.DataLayer.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Inital : IMigrationMetadata
+    public sealed partial class NewColumns : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Inital));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NewColumns));
         
         string IMigrationMetadata.Id
         {
-            get { return "201612062055317_Inital"; }
+            get { return "201612291323207_NewColumns"; }
         }
         
         string IMigrationMetadata.Source

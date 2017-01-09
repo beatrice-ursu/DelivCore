@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.CodeDom;
+using AutoMapper;
 using DelivCore.Infrastructure.Automapper.Profiles;
 
 namespace DelivCore.Infrastructure.Automapper
@@ -11,6 +12,12 @@ namespace DelivCore.Infrastructure.Automapper
             {
                 //profiles
                 cfg.AddProfile<PersonProfile>();
+                cfg.AddProfile<OrderProfile>();
+                cfg.AddProfile<ClientProfile>();
+                cfg.AddProfile<PackageProfile>();
+                cfg.AddProfile<OrderOfferProfile>();
+                cfg.AddProfile<DeliveryOfferProfile>();
+                cfg.AddProfile<DeliveryProfile>();
             });
         }
     }

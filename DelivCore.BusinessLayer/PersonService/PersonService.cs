@@ -4,6 +4,7 @@ using AutoMapper;
 using DelivCore.DataLayer.Entities;
 using DelivCore.DataLayer.Repositories.PersonRepository;
 using DelivCore.Models.Person;
+using DelivCore.Models.Persons;
 
 namespace DelivCore.BusinessLayer.PersonService
 {
@@ -30,8 +31,8 @@ namespace DelivCore.BusinessLayer.PersonService
             //IEnumerable doesent have .Add()
             entities = entities.ToList();
             //demonstrate automapper magic
-            ((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Urs", FirstName = "Rob" });
-            ((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Tom", FirstName = "Bea" });
+            //((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Urs", FirstName = "Rob" });
+            //((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Tom", FirstName = "Bea" });
 
             var models = entities.Select(x => _mapper.Map<FakePerson>(x)).ToList();
             models.Add(new FakePerson { Age = 21, FullName = "Ursu Robert Andrei" });

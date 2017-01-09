@@ -44,6 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientService\ClientService.cs" />
+    <Compile Include="ClientService\IClientService.cs" />
+    <Compile Include="DeliveryOfferService\DeliveryOfferService.cs" />
+    <Compile Include="DeliveryOfferService\IDeliveryOfferService.cs" />
+    <Compile Include="DeliveryService\DeliveryService.cs" />
+    <Compile Include="DeliveryService\IDeliveryService.cs" />
+    <Compile Include="OrderOfferService\IOrderOfferService.cs" />
+    <Compile Include="OrderOfferService\OrderOfferService.cs" />
+    <Compile Include="OrderService\OrderService.cs" />
+    <Compile Include="OrderService\IOrderService.cs" />
     <Compile Include="PersonService\IPersonService.cs" />
     <Compile Include="PersonService\PersonService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
