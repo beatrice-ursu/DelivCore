@@ -6,6 +6,7 @@ using DelivCore.BusinessLayer.DeliveryOfferService;
 using DelivCore.BusinessLayer.DeliveryService;
 using DelivCore.BusinessLayer.OrderOfferService;
 using DelivCore.DataLayer.Entities;
+using DelivCore.BusinessLayer.UserService;
 
 namespace DelivCore.Infrastructure.Autofac
 {
@@ -20,6 +21,7 @@ namespace DelivCore.Infrastructure.Autofac
             builder.RegisterType<OrderOfferService>().As<IOrderOfferService>();
             builder.RegisterType<DeliveryOfferService>().As<IDeliveryOfferService>();
             builder.RegisterType<DeliveryService>().As<IDeliveryService>();
+            builder.RegisterType<UserService>().As<IUserService>();
         }
     }
 }

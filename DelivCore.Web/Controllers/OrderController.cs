@@ -4,6 +4,7 @@ using DelivCore.BusinessLayer.DeliveryOfferService;
 using DelivCore.BusinessLayer.DeliveryService;
 using DelivCore.BusinessLayer.OrderOfferService;
 using DelivCore.BusinessLayer.OrderService;
+using DelivCore.BusinessLayer.UserService;
 
 namespace DelivCore.Web.Controllers
 {
@@ -13,13 +14,15 @@ namespace DelivCore.Web.Controllers
         private readonly IOrderOfferService _orderOfferService;
         private readonly IDeliveryService _deliveryService;
         private readonly IDeliveryOfferService _deliveryOfferService;
+        private readonly IUserService _userService;
 
-        public OrderController(IOrderService orderService, IOrderOfferService orderOfferService, IDeliveryService deliveryService, IDeliveryOfferService deliveryOfferService)
+        public OrderController(IOrderService orderService, IOrderOfferService orderOfferService, IDeliveryService deliveryService, IDeliveryOfferService deliveryOfferService, IUserService userService)
         {
             _orderService = orderService;
             _orderOfferService = orderOfferService;
             _deliveryService = deliveryService;
             _deliveryOfferService = deliveryOfferService;
+            _userService = userService;
         }
 
         #region Methods
@@ -33,7 +36,7 @@ namespace DelivCore.Web.Controllers
         [Authorize]
         public ActionResult GetOrders(string filter)
         {
-            var orders = filter != null ? _orderService.GetAll().Where(x => x.Status == filter).ToList(): _orderService.GetAll().ToList();
+            var orders = filter != null ? _orderService.GetAll().Where(x => x.Status == filter).ToList() : _orderService.GetAll().ToList();
 
             return new JsonResult
             {
@@ -44,9 +47,10 @@ namespace DelivCore.Web.Controllers
         }
 
         [Authorize]
-        public ActionResult GetDetails(int id)
+        public async System.Threading.Tasks.Task<ActionResult> GetDetails(int id)
         {
             var ordersDetails = _orderService.GetById(id);
+            var usernames = await _userService.GetUserNames();
 
             return View("Details", ordersDetails);
         }
