@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         protected GenericRepository(DelivCoreDbContext context)
         {
             _context = context;
-            _dbSet = _context.Set<TEntity>();
+            DbSet = _context.Set<TEntity>();
         }
 
         #endregion
@@ -24,7 +25,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         #region Private members
 
         private readonly DelivCoreDbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
+        protected readonly DbSet<TEntity> DbSet;
 
         #endregion
 
@@ -36,7 +37,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public virtual IEnumerable<TEntity> Get()
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = DbSet;
             return query.ToList();
         }
 
@@ -47,12 +48,12 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public virtual TEntity GetById(object id)
         {
-            return _dbSet.Find(id);
+            return DbSet.Find(id);
         }
 
         public Task<TEntity> GetByIdAsync(object id)
         {
-            return _dbSet.FindAsync(id);
+            return DbSet.FindAsync(id);
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <param name="entity"></param>
         public virtual void Insert(TEntity entity)
         {
-            _dbSet.Add(entity);
+            DbSet.Add(entity);
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <param name="id"></param>
         public virtual void Delete(object id)
         {
-            var entityToDelete = _dbSet.Find(id);
+            var entityToDelete = DbSet.Find(id);
             Delete(entityToDelete);
         }
 
@@ -82,9 +83,9 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         {
             if (_context.Entry(entityToDelete).State == EntityState.Detached)
             {
-                _dbSet.Attach(entityToDelete);
+                DbSet.Attach(entityToDelete);
             }
-            _dbSet.Remove(entityToDelete);
+            DbSet.Remove(entityToDelete);
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <param name="entityToUpdate"></param>
         public virtual void Update(TEntity entityToUpdate)
         {
-            _dbSet.Attach(entityToUpdate);
+            DbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
@@ -104,7 +105,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public virtual IEnumerable<TEntity> GetMany(Func<TEntity, bool> where)
         {
-            return _dbSet.Where(where).ToList();
+            return DbSet.Where(where).ToList();
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public virtual IQueryable<TEntity> GetManyQueryable(Func<TEntity, bool> where)
         {
-            return _dbSet.Where(where).AsQueryable();
+            return DbSet.Where(where).AsQueryable();
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public TEntity Get(Func<TEntity, bool> where)
         {
-            return _dbSet.Where(where).FirstOrDefault();
+            return DbSet.Where(where).FirstOrDefault();
         }
 
         /// <summary>
@@ -134,9 +135,9 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public void Delete(Func<TEntity, bool> where)
         {
-            var objects = _dbSet.Where(where).AsQueryable();
+            var objects = DbSet.Where(where).AsQueryable();
             foreach (var obj in objects)
-                _dbSet.Remove(obj);
+                DbSet.Remove(obj);
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _dbSet.ToList();
+            return DbSet.ToList();
         }
 
         /// <summary>
@@ -156,7 +157,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public IQueryable<TEntity> GetWithInclude(Expression<Func<TEntity, bool>> predicate, params string[] include)
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = DbSet;
             query = include.Aggregate(query, (current, inc) => current.Include(inc));
             return query.Where(predicate);
         }
@@ -168,7 +169,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns></returns>
         public bool Exists(object primaryKey)
         {
-            return _dbSet.Find(primaryKey) != null;
+            return DbSet.Find(primaryKey) != null;
         }
 
         /// <summary>
@@ -178,7 +179,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns>A single record that matches the specified criteria</returns>
         public TEntity GetSingle(Func<TEntity, bool> predicate)
         {
-            return _dbSet.Single(predicate);
+            return DbSet.Single(predicate);
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns>A single record containing the first record matching the specified criteria</returns>
         public TEntity GetFirst(Func<TEntity, bool> predicate)
         {
-            return _dbSet.FirstOrDefault(predicate);
+            return DbSet.FirstOrDefault(predicate);
         }
 
         /// <summary>
@@ -197,7 +198,15 @@ namespace DelivCore.DataLayer.Repositories.GenericRepository
         /// <returns>the number of items modified</returns>
         public int SaveChanges()
         {
-            return _context.SaveChanges();
+            try
+            {
+                return _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var x = ex.EntityValidationErrors.ToList();
+                 throw;
+            }
         }
 
         /// <summary>

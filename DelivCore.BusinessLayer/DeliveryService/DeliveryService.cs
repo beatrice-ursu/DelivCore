@@ -29,7 +29,7 @@ namespace DelivCore.BusinessLayer.DeliveryService
             _mapper = mapper;
         }
 
-        public void AcceptOffer(int id)
+        public void AcceptOffer(int id, string currentUser)
         {
             var deliveryOffer = _deliveryOfferRepository.GetById(id);
             var deliveryAccepted = new Delivery
@@ -39,6 +39,7 @@ namespace DelivCore.BusinessLayer.DeliveryService
                 Courier = deliveryOffer.Courier,
                 Active = true,
                 CreatedOn = DateTime.Now,
+                CreatedBy = currentUser
             };
 
             _deliveryRepository.Insert(deliveryAccepted);

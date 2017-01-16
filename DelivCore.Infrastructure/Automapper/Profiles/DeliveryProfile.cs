@@ -9,7 +9,7 @@ namespace DelivCore.Infrastructure.Automapper.Profiles
     {
         public DeliveryProfile()
         {
-            CreateMap<Delivery, DeliveryModel>();
+            CreateMap<Delivery, DeliveryModel>().ForMember(x => x.CourierName, a => a.MapFrom(x => x.Courier.FirstName + " " + x.Courier.LastName));
             CreateMap<DeliveryModel, Delivery>();
         }
       

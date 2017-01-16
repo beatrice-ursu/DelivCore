@@ -1,0 +1,78 @@
+﻿@using Microsoft.Ajax.Utilities
+@model global::DelivCore.Models.Persons.MessageModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Message</h2>
+
+@using (Html.BeginForm("Replay", "Message", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+{
+    <div class="text-right container-fluid command-buttons">
+        @Html.ActionLink("Back to list", "Index", "Message", null, new {@class = "btn btn-warning"})
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.PersonFrom, htmlAttributes: new {@class = "control-label col-md-3"})
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.PersonFrom, new {htmlAttributes = new {@class = "form-control", id="PersonFrom", @disabled = "disabled"}})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MessageBody, htmlAttributes: new {@class = "control-label col-md-3"})
+                <div class="col-md-9">
+                    @Html.TextAreaFor(m => m.MessageBody, new {@class = "form-control", @disabled = "disabled"})
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Response:</label>
+                <div class="col-md-9">
+                    <textarea class="form-control" rows="5" id="ResponseBody"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreatedOn, htmlAttributes: new {@class = "control-label col-md-3"})
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.CreatedOn, new {htmlAttributes = new {@class = "form-control", @disabled = "disabled"}})
+                </div>
+            </div>
+        </div>
+    </div>
+    <div align="center">
+        <button type="button" class="btn btn-primary" onclick="Replay();">Replay!</button>
+    </div>
+}
+
+@section scripts
+{
+<script type="text/javascript">
+        function Replay() {
+            var personFrom = $("#PersonFrom");
+            var messageBody = $("#ResponseBody"); 
+
+            var messages = [];
+            messages.push({
+                PersonTo: personFrom.val(),
+                MessageBody: messageBody.val()
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Message/SendMessage",
+                data: { messages: messages },
+                success: function () {
+                    window.location.href = "/Message/Index";
+                }
+            });
+        }
+</script>
+}
+     
+
+

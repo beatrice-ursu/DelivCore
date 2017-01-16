@@ -11,16 +11,10 @@ namespace DelivCore.BusinessLayer.PersonService
 {
     public class PersonService : IPersonService
     {
-        /*
-         * Do logic here, like defaulting stuff, updating other stuff bla and return Models only
-         * Turn Entities into Models using automapper
-         * Only inject other repositories to grab data
-         * Don't inject other Services
-         */
-
         private readonly IMapper _mapper;
         private readonly IPersonRepository _personRepository;
         private readonly IDeliveryRepository _deliveryRepository;
+
         public PersonService(IMapper mapper, IPersonRepository personRepository, IDeliveryRepository deliveryRepository)
         {
             _mapper = mapper;
@@ -31,11 +25,7 @@ namespace DelivCore.BusinessLayer.PersonService
         public IList<FakePerson> GetFakePersons()
         {
             var entities = _personRepository.GetAll();
-            //IEnumerable doesent have .Add()
             entities = entities.ToList();
-            //demonstrate automapper magic
-            //((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Urs", FirstName = "Rob" });
-            //((IList<Person>)entities).Add(new Person { Age = 21, LastName = "Tom", FirstName = "Bea" });
 
             var models = entities.Select(x => _mapper.Map<FakePerson>(x)).ToList();
             models.Add(new FakePerson { Age = 21, FullName = "Ursu Robert Andrei" });
@@ -59,6 +49,13 @@ namespace DelivCore.BusinessLayer.PersonService
                 item.NoOfOrders = _deliveryRepository.GetAll().Where(x => x.Courier.Id == item.Id).ToList().Count;
             }
             return couriers;
+        }
+        public IList<UserModel> GetAllUsersFromDB()
+        {
+            var entities = _personRepository.GetAll();
+            var users = entities.Select(x => _mapper.Map<UserModel>(x)).ToList();
+
+            return users;
         }
     }
 }

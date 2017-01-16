@@ -189,6 +189,7 @@
     <Compile Include="Controllers\CourierController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Global.asax.cs">
@@ -210,7 +211,9 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\metisMenu\metisMenu.css" />
     <Content Include="Content\morrisjs\morris.css" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Content\sb-admin-2.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -270,6 +273,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -299,6 +303,9 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Dashboard\_NavbarPartial.cshtml" />
     <Content Include="Views\Courier\Index.cshtml" />
+    <Content Include="Views\Shared\Message\_MessagesPopup.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -312,6 +319,10 @@
     <ProjectReference Include="..\DelivCore.BusinessLayer\DelivCore.BusinessLayer.csproj">
       <Project>{0507299C-CF6F-4504-9C14-0D747B75F256}</Project>
       <Name>DelivCore.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DelivCore.DataLayer\DelivCore.DataLayer.csproj">
+      <Project>{365B8748-87EA-4ACD-8359-20A1B49B51BF}</Project>
+      <Name>DelivCore.DataLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\DelivCore.Infrastructure\DelivCore.Infrastructure.csproj">
       <Project>{CD885E16-3127-4B5A-AB2A-FC3E643F5CA2}</Project>

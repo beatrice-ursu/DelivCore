@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DelivCore.DataLayer.Constants;
 using DelivCore.DataLayer.Entities;
+using DelivCore.DataLayer.Repositories.DeliveryRepository;
 using DelivCore.DataLayer.Repositories.OrderRepository;
 using DelivCore.Models.Orders;
 using DelivCore.Models.Layout;
@@ -16,11 +17,13 @@ namespace DelivCore.BusinessLayer.OrderService
     {
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
 
-        public OrderService(IMapper mapper, IOrderRepository orderRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository, IDeliveryRepository deliveryRepository)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            _deliveryRepository = deliveryRepository;
         }
 
         public IList<OrderModel> GetAll()
@@ -34,6 +37,12 @@ namespace DelivCore.BusinessLayer.OrderService
         {
             var orderEntity = _orderRepository.GetById(id);
             var order = _mapper.Map<OrderDetailsModel>(orderEntity);
+
+            if (order.Status == StatusConstants.Accepted)
+            {
+                var deliveryEntity = _deliveryRepository.GetAll().FirstOrDefault(x => x.Order.Id == id);
+                order.DeliveryDetails = _mapper.Map<DeliveryModel>(deliveryEntity);
+            }
 
             return order;
         }
@@ -69,26 +78,12 @@ namespace DelivCore.BusinessLayer.OrderService
             return dashboardModel;
         }
 
-        public NavbarModel GroupOrdersByUser(string user)
+        public List<OrderModel> GroupOrdersByUser(string user)
         {
-            var allOrders = _orderRepository.GetAll().Where(x => x.CreatedBy == user).ToList();
+            var allOrdersEntities = _orderRepository.GetAll().Where(x => x.CreatedBy == user).ToList();
+            var allOrder = allOrdersEntities.Select(x => _mapper.Map<OrderModel>(x)).ToList();
 
-            var navbarModel = new NavbarModel();
-
-            foreach (var item in allOrders)
-            {
-                switch (item.Status)
-                {
-                    case StatusConstants.Processed:
-                        navbarModel.ProcessedToday++;
-                        break;
-                    case StatusConstants.Accepted:
-                        if(item.CreatedOn.Date == DateTime.Now.Date)
-                            navbarModel.AcceptedToday++;
-                        break;
-                }
-            }
-            return navbarModel;
+            return allOrder;
         }
     }
 }

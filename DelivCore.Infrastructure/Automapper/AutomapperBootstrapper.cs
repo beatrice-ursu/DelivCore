@@ -18,6 +18,7 @@ namespace DelivCore.Infrastructure.Automapper
                 cfg.AddProfile<OrderOfferProfile>();
                 cfg.AddProfile<DeliveryOfferProfile>();
                 cfg.AddProfile<DeliveryProfile>();
+                cfg.AddProfile<MessageProfile>();
             });
         }
     }

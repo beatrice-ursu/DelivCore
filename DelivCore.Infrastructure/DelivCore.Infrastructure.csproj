@@ -64,6 +64,7 @@
     <Compile Include="Automapper\Profiles\ClientProfile.cs" />
     <Compile Include="Automapper\Profiles\DeliveryOfferProfile.cs" />
     <Compile Include="Automapper\Profiles\DeliveryProfile.cs" />
+    <Compile Include="Automapper\Profiles\MessageProfile.cs" />
     <Compile Include="Automapper\Profiles\OrderOfferProfile.cs" />
     <Compile Include="Automapper\Profiles\OrderProfile.cs" />
     <Compile Include="Automapper\Profiles\PackageProfile.cs" />

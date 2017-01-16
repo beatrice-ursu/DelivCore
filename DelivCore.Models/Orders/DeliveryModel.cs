@@ -6,9 +6,9 @@ namespace DelivCore.Models.Orders
 {
     public class DeliveryModel: Model
     {
-        public DateTime EstimatedDelivery { get; set; }
-        public int Order { get; set; }
-        public int CourierId { get; set; }
+        public TimeSpan EstimatedDelivery { get; set; }
+        public int OrderId { get; set; }
+        public string CourierName { get; set; }
 
     }
 }

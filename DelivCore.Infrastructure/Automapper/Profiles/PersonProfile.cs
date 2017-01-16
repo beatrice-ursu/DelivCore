@@ -11,6 +11,8 @@ namespace DelivCore.Infrastructure.Automapper.Profiles
             CreateMap<Person, CourierModel>()
                 .ForMember(dest => dest.Deliveries, a => a.Ignore()); ;
             CreateMap<CourierModel, Person>();
+            CreateMap<Person, UserModel>();
+            CreateMap<UserModel, Person>();
         }
     }
 }

@@ -14,6 +14,6 @@ namespace DelivCore.BusinessLayer.OrderService
         OrderDetailsModel GetById(int id);
         void UpdateOrderIsProcessed(int id);
         DashboardModel GroupOrders();
-        NavbarModel GroupOrdersByUser(string user);
+        List<OrderModel> GroupOrdersByUser(string user);
     }
 }

@@ -50,7 +50,6 @@ namespace DelivCore.Web.Controllers
         public async System.Threading.Tasks.Task<ActionResult> GetDetails(int id)
         {
             var ordersDetails = _orderService.GetById(id);
-            var usernames = await _userService.GetUserNames();
 
             return View("Details", ordersDetails);
         }
@@ -70,9 +69,10 @@ namespace DelivCore.Web.Controllers
         }
 
         [Authorize]
-        public void AcceptOffer(int id)
+        public ActionResult AcceptOffer(int id)
         {
-            _deliveryService.AcceptOffer(id);
+            _deliveryService.AcceptOffer(id, User.Identity.Name);
+            return RedirectToAction("Index");
         }
         #endregion
 

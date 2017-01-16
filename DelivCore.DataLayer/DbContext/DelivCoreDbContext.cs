@@ -14,5 +14,6 @@ namespace DelivCore.DataLayer.DbContext
         public DbSet<Package> Packages { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderOffer> OrderOffers { get; set; }
+        public DbSet<Message> Messages { get; set; }
     }
 }

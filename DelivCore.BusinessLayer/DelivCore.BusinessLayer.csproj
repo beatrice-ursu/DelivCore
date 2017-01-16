@@ -71,6 +71,8 @@
     <Compile Include="DeliveryOfferService\IDeliveryOfferService.cs" />
     <Compile Include="DeliveryService\DeliveryService.cs" />
     <Compile Include="DeliveryService\IDeliveryService.cs" />
+    <Compile Include="MessageService\IMessageService.cs" />
+    <Compile Include="MessageService\MessageService.cs" />
     <Compile Include="OrderOfferService\IOrderOfferService.cs" />
     <Compile Include="OrderOfferService\OrderOfferService.cs" />
     <Compile Include="OrderService\OrderService.cs" />

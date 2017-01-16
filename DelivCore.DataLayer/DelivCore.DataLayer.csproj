@@ -49,12 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\PersonTypeConstants.cs" />
     <Compile Include="Constants\StatusConstants.cs" />
     <Compile Include="DbContext\DelivCoreDbContext.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Core\Entity.cs" />
     <Compile Include="Entities\Delivery.cs" />
     <Compile Include="Entities\DeliveryOffer.cs" />
+    <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderOffer.cs" />
     <Compile Include="Entities\Package.cs" />
@@ -79,6 +81,14 @@
     <Compile Include="Migrations\201701060948025_Changes.Designer.cs">
       <DependentUpon>201701060948025_Changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701141718387_Messages.cs" />
+    <Compile Include="Migrations\201701141718387_Messages.Designer.cs">
+      <DependentUpon>201701141718387_Messages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701162250505_PersonType.cs" />
+    <Compile Include="Migrations\201701162250505_PersonType.Designer.cs">
+      <DependentUpon>201701162250505_PersonType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClientRepository\ClientRepository.cs" />
@@ -89,6 +99,8 @@
     <Compile Include="Repositories\DeliveryRepository\IDeliveryRepository.cs" />
     <Compile Include="Repositories\GenericRepository\GenericRepository.cs" />
     <Compile Include="Repositories\GenericRepository\IGenericRepository.cs" />
+    <Compile Include="Repositories\MessageRepository\IMessageRepository.cs" />
+    <Compile Include="Repositories\MessageRepository\MessageRepository.cs" />
     <Compile Include="Repositories\OrderOfferRepository\IOrderOfferRepository.cs" />
     <Compile Include="Repositories\OrderOfferRepository\OrderOfferRepository.cs" />
     <Compile Include="Repositories\OrderRepository\IOrderRepository.cs" />
@@ -115,6 +127,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701060948025_Changes.resx">
       <DependentUpon>201701060948025_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141718387_Messages.resx">
+      <DependentUpon>201701141718387_Messages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701162250505_PersonType.resx">
+      <DependentUpon>201701162250505_PersonType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

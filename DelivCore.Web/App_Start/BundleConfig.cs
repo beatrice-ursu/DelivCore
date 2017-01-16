@@ -31,6 +31,8 @@ namespace DelivCore.Web
                       "~/Scripts/datatables/dataTables.bootstrap.js",
                       "~/Scripts/datatables-plugins/dataTables.boostrap.js",
                       "~/Scripts/datatables-responsive/dataTables.responsive.js",
+                      "~/Scripts/select2.full.min.js",
+                      "~/Scripts/notify.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -42,7 +44,8 @@ namespace DelivCore.Web
                       "~/Content/datatables-responsive/dataTables.responsive.css",
                       "~/Content/morrisjs/morris.css",
                       "~/Content/font-awesome.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/select2.min.css"));
         }
     }
 }

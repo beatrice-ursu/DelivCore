@@ -8,6 +8,6 @@ namespace DelivCore.BusinessLayer.DeliveryService
 {
     public interface IDeliveryService
     {
-        void AcceptOffer(int id);
+        void AcceptOffer(int id, string currentUser);
     }
 }

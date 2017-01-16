@@ -10,5 +10,6 @@ namespace DelivCore.BusinessLayer.PersonService
         IList<FakePerson> GetFakePersons();
         IList<FakerPerson> GetFakerPersons();
         IList<CourierModel> GetCouriers();
+        IList<UserModel> GetAllUsersFromDB();
     }
 }

@@ -13,5 +13,6 @@ namespace DelivCore.Models.Orders
         public ClientModel Client { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public DeliveryModel DeliveryDetails { get; set; }
     }
 }

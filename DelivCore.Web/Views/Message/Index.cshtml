@@ -1,0 +1,78 @@
+﻿@model IList<global::DelivCore.Models.Persons.MessageModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                My Messages
+            </div>
+            <br/>
+            <div class="text-right container-fluid command-buttons">
+                <a href="#" data-toggle="modal" data-target="#messageModal" class="text-right btn btn-primary"><i class="fa fa-send fa-fw"></i> SendMessage</a>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-hover display" width="100%" id="messages-grid">
+                    <thead>
+                        <tr>
+                            <th>MessageId</th>
+                            <th>From</th>
+                            <th>MessageBody</th>
+                            <th>SendOn</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var table = $('#messages-grid')
+            .DataTable({
+                ajax: '@Url.Action("GetMessages", "Message")',
+                columns: [
+                    { data: 'Id' },
+                    { data: 'PersonFrom' },
+                    { data: 'MessageBody' },
+                    {
+                        data: 'CreatedOn',
+                        render: function (data) {
+                            return formatLocalDate(data);
+                        }
+                    },
+                    {
+                        data: 'Id',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-danger" onclick="DeleteMessage(' + data + ');">Delete</button> <a class="btn btn-primary" href="/Message/MessageDetails/' + data + '">Details</a>';
+                        }
+
+                    }
+                ],
+                ordering: true,
+                searching: true,
+            });
+
+        function DeleteMessage(id) {
+            $.ajax({
+                type: "POST",
+                url: "/Message/DeleteMessage",
+                data: { Id: id },
+                success: function () {
+                    $.notify("Message deleted!", "success");
+                    window.location.reload();
+                },
+                error: function () {
+                    $.notify("An errror occured. The message was not deleted!", "error");
+                    window.location.reload();
+                }
+            });
+        }
+
+    </script>
+}
