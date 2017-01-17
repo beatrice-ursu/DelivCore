@@ -10,6 +10,6 @@ namespace DelivCore.BusinessLayer.UserService
     public interface IUserService
     {
         Task<List<string>> GetUserNames();
-        Task<List<UserDropdownModel>> GetUsersList();
+        Task<List<SelectDropdownModel>> GetUsersList();
     }
 }

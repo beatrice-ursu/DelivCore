@@ -36,12 +36,12 @@ namespace DelivCore.BusinessLayer.UserService
             return users.Select(x => x.FullName).ToList();
         }
 
-        public async Task<List<UserDropdownModel>> GetUsersList()
+        public async Task<List<SelectDropdownModel>> GetUsersList()
         {
             var client = GetApiClient();
             var users = await client.Users.GetAllAsync();
 
-            return users.Select(x => new UserDropdownModel { Id = x.FullName ?? string.Empty, Text = x.FullName ?? string.Empty}).ToList();
+            return users.Select(x => new SelectDropdownModel { Id = x.FullName ?? string.Empty, Text = x.FullName ?? string.Empty}).ToList();
         }
 
 

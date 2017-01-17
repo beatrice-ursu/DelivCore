@@ -32,6 +32,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Core\Model.cs" />
     <Compile Include="Core\ModelExtensions.cs" />
-    <Compile Include="Core\PersonModel.cs" />
+    <Compile Include="Persons\PersonModel.cs" />
     <Compile Include="Layout\NavbarModel.cs" />
     <Compile Include="Orders\DashboardModel.cs" />
     <Compile Include="Orders\DeliveryModel.cs" />
@@ -53,11 +57,8 @@
     <Compile Include="Orders\OrderModel.cs" />
     <Compile Include="Orders\OrderOfferModel.cs" />
     <Compile Include="Persons\CourierModel.cs" />
-    <Compile Include="Persons\FakePerson.cs" />
-    <Compile Include="Persons\FakerPerson.cs" />
     <Compile Include="Persons\MessageModel.cs" />
-    <Compile Include="Persons\UserDropdownModel.cs" />
-    <Compile Include="Persons\UserModel.cs" />
+    <Compile Include="Persons\SelectDropdownModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileModel.cs" />
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace DelivCore.API.Controllers
         [Route("ping")]
         public IHttpActionResult NotSecured()
         {
-            var test = _personService.GetFakePersons();
+            var test = _personService.GetAllPersonsFromDB();
             return Ok(test);
         }
 
@@ -32,7 +32,7 @@ namespace DelivCore.API.Controllers
 
         public IHttpActionResult Secured()
         {
-            var test = _personService.GetFakePersons();
+            var test = _personService.GetAllPersonsFromDB();
             return this.Ok("All good. You only get this message if you are authenticated.");
         }
     }

@@ -1,0 +1,132 @@
+﻿@using DelivCore.DataLayer.Constants
+@using Microsoft.Ajax.Utilities
+@model global::DelivCore.Models.Persons.PersonModel
+@{
+    ViewBag.Title = "CreatePerson";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create person profile</h2>
+
+@using (Html.BeginForm("AddPerson", "Person", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="text-right container-fluid command-buttons">
+        @Html.ActionLink("Back to list", "Index", "Person", null, new { @class = "btn btn-warning" })
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Id, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.Id, new { htmlAttributes = new { @class = "form-control", id = "PersonId", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control", id= "FirstName" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control", id = "LastName" } })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Username, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.EditorFor(m => m.Username, new { htmlAttributes = new { @class = "form-control", id= "Username" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PersonType, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    <select name="PersonType" class="js-example-basic-single" id="PersonType" style="width: 100%"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    if (Model.Id != 0)
+    {        
+        <div align="center">
+            <button type="button" class="btn btn-primary" onclick="EditPersonProfile();">Edit person profile!</button>
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <button type="button" class="btn btn-primary" onclick="CreatePersonProfile();">Create person profile!</button>
+        </div>
+    }
+
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $.get('/Person/GetPersonTypes',
+            function(data) {
+                $("#PersonType")
+                    .select2({
+                        data: data
+                    });
+            });
+
+        function CreatePersonProfile() {
+
+            var firstName = $("#FirstName");
+            var lastName = $("#LastName");
+            var username = $("#Username");
+            var personType = $("#PersonType");
+
+            $.ajax({
+                type: "POST",
+                url: "/Person/CreateProfile",
+                data: {
+                    model: {
+                        Id: id.val(),
+                        FirstName: firstName.val(),
+                        LastName: lastName.val(),
+                        Username: username.val(),
+                        PersonType: personType.val()
+                    }
+                },
+                success: function() {
+                    $.notify("Person created with succes!", "success");
+                    window.location.href = "/Person/Index";
+                }
+            });
+        }
+
+        function EditPersonProfile() {
+
+            var id = $("#PersonId");
+            var firstName = $("#FirstName");
+            var lastName = $("#LastName");
+            var username = $("#Username");
+            var personType = $("#PersonType");
+
+            $.ajax({
+                type: "POST",
+                url: "/Person/EditProfile",
+                data: {
+                    model: {
+                        Id: id.val(),
+                        FirstName: firstName.val(),
+                        LastName: lastName.val(),
+                        Username: username.val(),
+                        PersonType: personType.val()
+                    }
+                },
+                success: function() {
+                    $.notify("Person edited with succes!", "success");
+                    window.location.href = "/Person/Index";
+                }
+            });
+        }
+    </script>
+}

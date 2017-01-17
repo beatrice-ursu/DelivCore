@@ -3,9 +3,10 @@ using System.Linq;
 using AutoMapper;
 using DelivCore.DataLayer.Entities;
 using DelivCore.DataLayer.Repositories.PersonRepository;
-using DelivCore.Models.Person;
 using DelivCore.Models.Persons;
 using DelivCore.DataLayer.Repositories.DeliveryRepository;
+using System;
+using DelivCore.Models.Core;
 
 namespace DelivCore.BusinessLayer.PersonService
 {
@@ -21,25 +22,6 @@ namespace DelivCore.BusinessLayer.PersonService
             _personRepository = personRepository;
             _deliveryRepository = deliveryRepository;
         }
-
-        public IList<FakePerson> GetFakePersons()
-        {
-            var entities = _personRepository.GetAll();
-            entities = entities.ToList();
-
-            var models = entities.Select(x => _mapper.Map<FakePerson>(x)).ToList();
-            models.Add(new FakePerson { Age = 21, FullName = "Ursu Robert Andrei" });
-            models.Add(new FakePerson { Age = 22, FullName = "Toma Beatrice Ramona" });
-            return models;
-        }
-
-        public IList<FakerPerson> GetFakerPersons()
-        {
-            var entities = _personRepository.GetAll();
-            var models = entities.Select(x => _mapper.Map<FakerPerson>(x)).ToList();
-            return models;
-        }
-
         public IList<CourierModel> GetCouriers()
         {
             var couriersEntities = _personRepository.GetAll();
@@ -50,12 +32,44 @@ namespace DelivCore.BusinessLayer.PersonService
             }
             return couriers;
         }
-        public IList<UserModel> GetAllUsersFromDB()
+        public IList<PersonModel> GetAllPersonsFromDB()
         {
             var entities = _personRepository.GetAll();
-            var users = entities.Select(x => _mapper.Map<UserModel>(x)).ToList();
+            var persons = entities.Select(x => _mapper.Map<PersonModel>(x)).ToList();
 
-            return users;
+            return persons;
+        }
+
+        public void AddPerson(PersonModel person, string currentUser)
+        {
+            person.Defaults(currentUser);
+            var personEntity = _mapper.Map<Person>(person);
+
+            _personRepository.Insert(personEntity);
+            _personRepository.SaveChanges();
+        }
+
+        public PersonModel GetById(int id)
+        {
+            var entity = _personRepository.GetById(id);
+            var person = _mapper.Map<PersonModel>(entity);
+
+            return person;
+        }
+
+        public void EditPerson(PersonModel person, string currentUser)
+        {
+            var entity = _personRepository.GetById(person.Id);
+
+            entity.FirstName = person.FirstName;
+            entity.LastName = person.LastName;
+            entity.Username = person.Username;
+            entity.PersonType = person.PersonType;
+            entity.UpdatedOn = DateTime.Now;
+            entity.UpdatedBy = currentUser;
+
+            _personRepository.Update(entity);
+            _personRepository.SaveChanges();
         }
     }
 }

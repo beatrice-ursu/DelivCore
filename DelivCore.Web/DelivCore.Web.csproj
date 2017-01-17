@@ -306,6 +306,7 @@
     <Content Include="Views\Shared\Message\_MessagesPopup.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Person\CreatePerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
