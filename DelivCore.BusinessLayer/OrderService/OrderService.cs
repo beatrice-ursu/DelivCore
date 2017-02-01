@@ -10,6 +10,7 @@ using DelivCore.DataLayer.Repositories.DeliveryRepository;
 using DelivCore.DataLayer.Repositories.OrderRepository;
 using DelivCore.Models.Orders;
 using DelivCore.Models.Layout;
+using DelivCore.DataLayer.Entities.Core;
 
 namespace DelivCore.BusinessLayer.OrderService
 {
@@ -84,6 +85,28 @@ namespace DelivCore.BusinessLayer.OrderService
             var allOrder = allOrdersEntities.Select(x => _mapper.Map<OrderModel>(x)).ToList();
 
             return allOrder;
+        }
+
+        public bool SaveOrders(IEnumerable<OrderDto> orders)
+        {
+            try
+            {
+                foreach (var order in orders)
+                {
+                    var entity = _mapper.Map<Order>(order);
+                    entity.Defaults("system");
+                    entity.Client.Defaults("system");
+                    entity.Packages.Defaults("system");
+
+                    _orderRepository.Insert(entity);
+                }
+                _orderRepository.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

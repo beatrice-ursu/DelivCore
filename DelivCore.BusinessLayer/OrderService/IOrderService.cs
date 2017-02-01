@@ -15,5 +15,6 @@ namespace DelivCore.BusinessLayer.OrderService
         void UpdateOrderIsProcessed(int id);
         DashboardModel GroupOrders();
         List<OrderModel> GroupOrdersByUser(string user);
+        bool SaveOrders(IEnumerable<OrderDto> orders);
     }
 }

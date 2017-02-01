@@ -9,8 +9,7 @@ using DelivCore.BusinessLayer.PersonService;
 
 namespace DelivCore.API.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class ValuesController : ApiController
+    public class ValuesController : BaseApiController
     {
         private readonly IPersonService _personService;
         public ValuesController(IPersonService personService)

@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="Core\Model.cs" />
     <Compile Include="Core\ModelExtensions.cs" />
+    <Compile Include="Orders\OrderDto.cs" />
+    <Compile Include="Orders\PackageDto.cs" />
+    <Compile Include="Persons\ClientDto.cs" />
     <Compile Include="Persons\PersonModel.cs" />
     <Compile Include="Layout\NavbarModel.cs" />
     <Compile Include="Orders\DashboardModel.cs" />

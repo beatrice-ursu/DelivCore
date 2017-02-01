@@ -54,6 +54,7 @@
     <Compile Include="DbContext\DelivCoreDbContext.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Core\Entity.cs" />
+    <Compile Include="Entities\Core\EntityExtensions.cs" />
     <Compile Include="Entities\Delivery.cs" />
     <Compile Include="Entities\DeliveryOffer.cs" />
     <Compile Include="Entities\Message.cs" />

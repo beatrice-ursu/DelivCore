@@ -5,6 +5,7 @@ using DelivCore.BusinessLayer.DeliveryService;
 using DelivCore.BusinessLayer.OrderOfferService;
 using DelivCore.BusinessLayer.OrderService;
 using DelivCore.BusinessLayer.UserService;
+using System.Threading.Tasks;
 
 namespace DelivCore.Web.Controllers
 {
@@ -47,7 +48,7 @@ namespace DelivCore.Web.Controllers
         }
 
         [Authorize]
-        public async System.Threading.Tasks.Task<ActionResult> GetDetails(int id)
+        public ActionResult GetDetails(int id)
         {
             var ordersDetails = _orderService.GetById(id);
 
